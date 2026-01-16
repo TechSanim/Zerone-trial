@@ -1,0 +1,7 @@
+{
+  "name": "Selfie Bingo Alpha",
+  "description": "An interactive Alphabet Bingo game where participants complete their grid by taking selfies with other registered users.",
+  "requestFramePermissions": [
+    "camera"
+  ]
+}
