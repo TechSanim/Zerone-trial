@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { User } from '../types';
-import { ShieldCheck, Camera, Instagram, Facebook, Twitter, Globe } from 'lucide-react';
+import { ShieldCheck, Camera, Instagram, Facebook, Twitter, Globe, Lock, X, LogIn } from 'lucide-react';
 
 interface LandingPageProps {
   onLogin: (user: User) => void;
@@ -11,42 +11,49 @@ interface LandingPageProps {
 const LandingPage: React.FC<LandingPageProps> = ({ onLogin }) => {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
+  const [showAdminModal, setShowAdminModal] = useState(false);
+  const [adminUser, setAdminUser] = useState('');
+  const [adminPass, setAdminPass] = useState('');
+  const [adminError, setAdminError] = useState('');
 
-  const simulateGoogleLogin = () => {
+  const handleContinue = () => {
     setIsLoading(true);
     setTimeout(() => {
       navigate('/register');
       setIsLoading(false);
-    }, 1500);
+    }, 1200);
   };
 
-  const loginAsAdmin = () => {
-    const adminUser: User = {
-      id: 'ADMIN-001',
-      name: 'System Admin',
-      email: 'admin@ieee.org',
-      department: 'Management',
-      registrationTime: Date.now(),
-      role: 'admin',
-      grid: []
-    };
-    onLogin(adminUser);
-    navigate('/admin');
+  const handleAdminLogin = (e: React.FormEvent) => {
+    e.preventDefault();
+    // Specific credentials as requested by user: zerone7.0 / gamelaunch2026
+    if (adminUser === 'zerone7.0' && adminPass === 'gamelaunch2026') {
+      const adminUserData: User = {
+        id: 'ADMIN-MASTER',
+        name: 'Zerone Admin',
+        email: 'admin@ieee.org',
+        department: 'Event Lead',
+        registrationTime: Date.now(),
+        role: 'admin',
+        grid: []
+      };
+      onLogin(adminUserData);
+      navigate('/admin');
+    } else {
+      setAdminError('Access Denied. Incorrect credentials.');
+    }
   };
 
   const socialLinks = {
     instagram: "https://www.instagram.com/ieeesbcekgr/",
     facebook: "https://www.facebook.com/ieeesbcekgr/",
     twitter: "https://twitter.com/ieeesbcekgr/",
-    website: "https://ieee.org" // Placeholder, but professional
+    website: "https://ieee.org"
   };
 
   return (
     <div className="fixed inset-0 w-full h-full overflow-hidden flex items-center justify-center bg-black">
-      {/* 
-          Blurred Wallpaper Layer 
-          Recreating the Zerone 7.0 visual identity
-      */}
+      {/* Background Decor */}
       <div className="absolute inset-0 z-0 blur-[10px] scale-110 opacity-60 pointer-events-none select-none">
         <div className="absolute bottom-0 right-0 w-full h-full bg-[radial-gradient(circle_at_bottom_right,_rgba(220,38,38,0.7)_0%,_transparent_60%)]"></div>
         
@@ -60,7 +67,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ onLogin }) => {
           </div>
 
           <div className="flex-grow flex flex-col items-center justify-center text-center -mt-20">
-            <span className="text-red-500 font-bold tracking-[0.4em] uppercase mb-4 text-base">Exclusive for First Years</span>
+            <span className="text-red-500 font-bold tracking-[0.4em] uppercase mb-4 text-base">First Year Induction Special</span>
             <h1 className="text-[14vw] font-black italic tracking-tighter leading-none mb-4 drop-shadow-2xl">ZERONE 7.0</h1>
             
             <div className="space-y-1.5 flex flex-col items-center opacity-80">
@@ -74,7 +81,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ onLogin }) => {
         </div>
       </div>
 
-      {/* Pop Screen Overlay (Glassmorphism Modal) */}
+      {/* Main UI */}
       <div className="relative z-10 w-full max-w-md px-6 animate-in fade-in zoom-in duration-1000">
         <div className="bg-black/60 backdrop-blur-3xl border border-white/10 rounded-[3rem] p-10 md:p-14 shadow-[0_0_80px_rgba(0,0,0,0.8)] text-center space-y-10">
           
@@ -91,47 +98,96 @@ const LandingPage: React.FC<LandingPageProps> = ({ onLogin }) => {
             <div className="h-1.5 w-24 bg-red-600 mx-auto rounded-full shadow-[0_0_20px_rgba(220,38,38,0.6)]"></div>
             
             <p className="text-white/80 text-sm font-semibold tracking-wide leading-relaxed px-4">
-              Unlock the grid and start your Zerone journey. Capture selfies with new friends to win!
+              Unlock the grid, meet new friends, and capture memories. Your journey begins here.
             </p>
           </div>
 
           <div className="space-y-6 pt-4">
-            {/* Dark Shaded Google Button */}
             <button
-              onClick={simulateGoogleLogin}
+              onClick={handleContinue}
               disabled={isLoading}
               className="w-full flex items-center justify-center gap-4 bg-zinc-950 hover:bg-black text-white py-5 px-8 rounded-2xl shadow-2xl transition-all font-bold disabled:opacity-50 active:scale-[0.97] border border-white/10 group overflow-hidden relative"
             >
               {isLoading ? (
                 <div className="w-6 h-6 border-3 border-white/20 border-t-white rounded-full animate-spin"></div>
               ) : (
-                <>
-                  <div className="bg-white p-1 rounded-sm shadow-sm group-hover:scale-110 transition-transform">
-                    <svg className="w-5 h-5" viewBox="0 0 24 24">
-                      <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
-                      <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
-                      <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
-                      <path d="M12 5.38c1.62 0 3.06.56 4.21 1.66l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
-                    </svg>
-                  </div>
-                  <span className="text-lg tracking-tight">Continue with Gmail</span>
-                </>
+                <span className="text-lg tracking-tight uppercase">Continue</span>
               )}
             </button>
 
-            {/* Admin Entry Link */}
             <button 
-              onClick={loginAsAdmin}
+              onClick={() => setShowAdminModal(true)}
               className="w-full py-2 text-xs font-black text-white/20 hover:text-red-500 flex items-center justify-center gap-2 transition-all uppercase tracking-[0.3em]"
             >
               <ShieldCheck className="w-4 h-4" />
-              Staff Entry Only
+              Admin Portal
             </button>
           </div>
         </div>
       </div>
 
-      {/* Social Footer Bar with actual links */}
+      {/* Admin Auth Modal */}
+      {showAdminModal && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-6 bg-black/90 backdrop-blur-md">
+          <div className="bg-zinc-900 border border-white/10 rounded-[2.5rem] w-full max-w-sm p-8 shadow-2xl relative animate-in zoom-in duration-300">
+            <button 
+              onClick={() => setShowAdminModal(false)}
+              className="absolute right-6 top-6 p-2 text-zinc-500 hover:text-white transition-colors"
+            >
+              <X className="w-6 h-6" />
+            </button>
+            
+            <div className="text-center mb-8">
+              <div className="w-16 h-16 bg-red-600/10 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                <Lock className="w-8 h-8 text-red-600" />
+              </div>
+              <h3 className="text-xl font-black text-white uppercase tracking-tight">System Access</h3>
+              <p className="text-zinc-500 text-xs font-bold uppercase tracking-widest mt-1">Authorized Personnel Only</p>
+            </div>
+
+            <form onSubmit={handleAdminLogin} className="space-y-4">
+              <div className="space-y-2">
+                <label className="text-[10px] font-black text-zinc-500 uppercase tracking-widest ml-1">Admin ID</label>
+                <input 
+                  type="text"
+                  required
+                  value={adminUser}
+                  onChange={(e) => setAdminUser(e.target.value)}
+                  className="w-full bg-zinc-800 border border-white/5 rounded-xl px-4 py-3 text-white outline-none focus:ring-2 focus:ring-red-600 transition-all text-sm font-bold"
+                  placeholder="Enter Username"
+                />
+              </div>
+              <div className="space-y-2">
+                <label className="text-[10px] font-black text-zinc-500 uppercase tracking-widest ml-1">Password</label>
+                <input 
+                  type="password"
+                  required
+                  value={adminPass}
+                  onChange={(e) => setAdminPass(e.target.value)}
+                  className="w-full bg-zinc-800 border border-white/5 rounded-xl px-4 py-3 text-white outline-none focus:ring-2 focus:ring-red-600 transition-all text-sm font-bold"
+                  placeholder="Enter Password"
+                />
+              </div>
+
+              {adminError && (
+                <p className="text-red-500 text-[10px] font-black uppercase text-center animate-pulse">
+                  {adminError}
+                </p>
+              )}
+
+              <button 
+                type="submit"
+                className="w-full bg-red-600 hover:bg-red-700 text-white py-4 rounded-xl font-black uppercase tracking-[0.2em] text-xs shadow-xl shadow-red-900/20 transition-all flex items-center justify-center gap-2 mt-4"
+              >
+                Launch Console
+                <LogIn className="w-4 h-4" />
+              </button>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* Social Bar */}
       <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 w-full max-w-[320px] px-4">
         <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-full py-3 px-6 flex items-center justify-between shadow-xl">
            <div className="flex gap-4">

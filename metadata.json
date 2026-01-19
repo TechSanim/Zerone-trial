@@ -1,5 +1,7 @@
 {
-  "name": "Scratch-to-Group Discovery",
-  "description": "A fun and interactive way for participants to discover their assigned groups via a scratch card interface, with robust admin controls and balanced group distribution.",
-  "requestFramePermissions": []
+  "name": "Selfie Bingo Alpha",
+  "description": "An interactive Alphabet Bingo game where participants complete their grid by taking selfies with other registered users.",
+  "requestFramePermissions": [
+    "camera"
+  ]
 }

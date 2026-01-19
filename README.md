@@ -1,20 +1,35 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
-</div>
 
-# Run and deploy your AI Studio app
+# 📸 Selfie Bingo - Zerone 7.0 Edition
 
-This contains everything you need to run your app locally.
+An interactive Alphabet Bingo game designed for **IEEE SB CE Kidangoor**. Participants complete a 5x5 grid by interacting with others, scanning their QR codes, and taking selfies.
 
-View your app in AI Studio: https://ai.studio/apps/drive/11OD5tNAG6z6L1TJzJo_dvUna7HOTse--
+## 🚀 How to Run Locally
 
-## Run Locally
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/YOUR_USERNAME/selfie-bingo.git
+   cd selfie-bingo
+   ```
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+3. Start the development server:
+   ```bash
+   npm run dev
+   ```
 
-**Prerequisites:**  Node.js
+## 🛠 Features
+- **Google-style Authentication:** Persistent sessions via local storage.
+- **QR Code System:** Every user has a unique ID and QR code.
+- **Live Admin Dashboard:** Real-time tracking of participant progress.
+- **Win Detection:** Automatically detects rows, columns, and diagonals.
+- **Selfie Verification:** Photos are captured and logged for admin audit.
 
+## 📦 Deployment
+This app is ready to be deployed to **GitHub Pages**, **Vercel**, or **Netlify**. 
+- **Build Command:** `npm run build`
+- **Output Directory:** `dist`
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+---
+Produced by the **IEEE SB CEK Dev Team**.
